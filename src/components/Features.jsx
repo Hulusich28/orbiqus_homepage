@@ -14,7 +14,7 @@ export default function Features() {
         <div className="section__head">
           <span className="eyebrow">Funktionen</span>
           <h2>Terminsoftware, die mitdenkt</h2>
-          <p>Ihre Kunden buchen in Sekunden – Sie sparen Zeit für das Wesentliche.</p>
+          <p>Ihre Kunden buchen in Sekunden y – Sie sparen Zeit für das Wesentliche.</p>
         </div>
         <div className="grid grid--3">
           {features.map((f) => (
