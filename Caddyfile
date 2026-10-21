@@ -1,0 +1,7 @@
+# TLS übernimmt der Caddy auf dem Server, hier nur statisch ausliefern
+:80 {
+    root * /srv
+    try_files {path} /index.html
+    file_server
+    encode gzip
+}
