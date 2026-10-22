@@ -1,3 +1,5 @@
+import { Reveal, TextReveal } from './motion.jsx';
+
 // TODO: Namen, Rollen und Fotos der Gründer eintragen (Fotos z. B. nach public/team/ legen)
 const founders = [
   { initial: 'A', name: 'Gründer 1', role: 'Produkt & Entwicklung', tone: 'violet' },
@@ -9,12 +11,12 @@ export default function Team() {
   return (
     <section className="team" id="team">
       <div className="wrap">
-        <h2 className="h2 center">Die Gründer</h2>
+        <TextReveal className="h2 center" text="Die Gründer" />
         <p className="sub center">Drei Studenten, ein Ziel: Termine sollen kein Papierkram mehr sein.</p>
 
-        <div className="team__faces">
-          {founders.map((f) => (
-            <figure key={f.name} className="face">
+        <Reveal className="team__faces">
+          {founders.map((f, i) => (
+            <figure key={f.name} className="face" style={{ '--s': i }} data-stagger>
               <span className={`face__img tone-bg--${f.tone}`} aria-hidden="true">{f.initial}</span>
               <figcaption>
                 <strong>{f.name}</strong>
@@ -22,9 +24,9 @@ export default function Team() {
               </figcaption>
             </figure>
           ))}
-        </div>
+        </Reveal>
 
-        <div className="team__story sketch">
+        <Reveal className="team__story sketch">
           <p className="team__quote">
             Wir haben gesehen, wie viel Zeit kleine Betriebe am Telefon verlieren, nur um Termine
             hin- und herzuschieben. Das wollten wir ändern.
@@ -42,7 +44,7 @@ export default function Team() {
             <a href="#kontakt" className="link link--violet">Lernen Sie uns kennen</a>
             <a href="#produkte" className="link">Produkte ansehen</a>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

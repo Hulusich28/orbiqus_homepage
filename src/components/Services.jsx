@@ -1,5 +1,6 @@
 import Wave from './Wave.jsx';
 import { ArrowUpRight, Calendar, Globe, Server } from './Icons.jsx';
+import { Reveal, TextReveal, TiltCard } from './motion.jsx';
 
 const products = [
   {
@@ -32,14 +33,16 @@ export default function Services() {
       <Wave color="var(--mist)" />
       <div className="products__body">
         <div className="wrap">
-          <h2 className="h2 center">Drei Produkte. Ein Team.</h2>
+          <TextReveal className="h2 center" text="Drei Produkte. Ein Team." />
           <p className="sub center">
             Von der ersten Buchung bis zum laufenden Server: Sie haben einen Ansprechpartner für alles.
           </p>
-          <div className="products__grid">
-            {products.map(({ icon: Icon, ...p }) => (
-              <article key={p.title} className={`product sketch product--${p.tone}`}>
+          <Reveal className="products__grid">
+            {products.map(({ icon: Icon, ...p }, i) => (
+              <TiltCard as="article" key={p.title} className={`product sketch product--${p.tone}`} style={{ '--s': i }} data-stagger>
                 <div className="product__art">
+                  <span className="product__ring product__ring--1" />
+                  <span className="product__ring product__ring--2"><i /></span>
                   <span className="product__icon"><Icon width="34" height="34" /></span>
                   {p.tag && <span className="pill">{p.tag}</span>}
                 </div>
@@ -51,9 +54,9 @@ export default function Services() {
                 <a href="#kontakt" className="product__more">
                   Anfragen <span className="round round--sm"><ArrowUpRight width="16" height="16" /></span>
                 </a>
-              </article>
+              </TiltCard>
             ))}
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

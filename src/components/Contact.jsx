@@ -22,6 +22,7 @@ export default function Contact() {
     <section className="contact" id="kontakt">
       <div className="wrap">
         <div className="contact__card">
+          <div className="aurora" aria-hidden="true"><i /><i /><i /></div>
           <div className="contact__info">
             <h2 className="h2">Lust auf eine Demo?</h2>
             <p>

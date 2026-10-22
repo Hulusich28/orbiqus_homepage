@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import { Reveal, TextReveal } from './motion.jsx';
+
 const faqs = [
   {
     q: 'Wie lange dauert es, bis meine Kunden online buchen können?',
@@ -30,21 +33,35 @@ const faqs = [
 ];
 
 export default function Faq() {
+  const [open, setOpen] = useState(0);
   return (
     <section className="faq" id="faq">
       <div className="wrap wrap--narrow">
-        <h2 className="h2 center">Häufige Fragen</h2>
-        <div className="faq__list">
-          {faqs.map((f, i) => (
-            <details key={f.q} className="faq__item" open={i === 0}>
-              <summary>
-                <span>{f.q}</span>
-                <i className="faq__icon" aria-hidden="true" />
-              </summary>
-              <p>{f.a}</p>
-            </details>
-          ))}
-        </div>
+        <TextReveal className="h2 center" text="Häufige Fragen" />
+        <Reveal className="faq__list">
+          {faqs.map((f, i) => {
+            const isOpen = open === i;
+            return (
+              <div key={f.q} className={`faq__item ${isOpen ? 'is-open' : ''}`} style={{ '--s': i }} data-stagger>
+                <h3>
+                  <button
+                    className="faq__q"
+                    aria-expanded={isOpen}
+                    aria-controls={`faq-${i}`}
+                    id={`faq-q-${i}`}
+                    onClick={() => setOpen(isOpen ? -1 : i)}
+                  >
+                    <span>{f.q}</span>
+                    <i className="faq__icon" aria-hidden="true" />
+                  </button>
+                </h3>
+                <div className="faq__a" id={`faq-${i}`} role="region" aria-labelledby={`faq-q-${i}`}>
+                  <div><p>{f.a}</p></div>
+                </div>
+              </div>
+            );
+          })}
+        </Reveal>
       </div>
     </section>
   );
