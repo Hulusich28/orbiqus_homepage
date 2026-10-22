@@ -1,44 +1,59 @@
-const services = [
+import Wave from './Wave.jsx';
+import { ArrowUpRight, Calendar, Globe, Server } from './Icons.jsx';
+
+const products = [
   {
-    icon: '📅',
-    title: 'Terminbuchungssoftware',
-    text: 'Online-Terminbuchung rund um die Uhr – mit Kalender-Synchronisation, automatischen Erinnerungen und Mitarbeiterverwaltung.',
-    points: ['Buchungs-Widget für Ihre Website', 'SMS- & E-Mail-Erinnerungen', 'Google- & Outlook-Sync'],
+    icon: Calendar,
+    tone: 'violet',
+    tag: 'Hauptprodukt',
+    title: 'Terminsoftware',
+    text: 'Ihre Kunden buchen rund um die Uhr online. Erinnerungen, Kalender-Sync und Teamplanung laufen automatisch.',
+    points: ['Buchungsseite & Website-Widget', 'SMS- & E-Mail-Erinnerungen', 'Google-, Outlook- & Apple-Sync'],
   },
   {
-    icon: '🌐',
-    title: 'Websites & Landingpages',
-    text: 'Moderne, schnelle und responsive Websites, die Besucher zu Kunden machen – optimiert für Google und alle Geräte.',
-    points: ['Individuelles Design', 'SEO & Performance', 'Einfache Pflege per CMS'],
+    icon: Globe,
+    tone: 'cyan',
+    title: 'Websites',
+    text: 'Moderne, schnelle Websites, die auf jedem Handy gut aussehen und bei Google gefunden werden.',
+    points: ['Individuelles Design', 'Terminbuchung direkt eingebaut', 'Inhalte selbst pflegen'],
   },
   {
-    icon: '⚙️',
-    title: 'Individuelle Softwarelösungen',
-    text: 'Maßgeschneiderte Anwendungen und Schnittstellen, die exakt zu Ihren Prozessen passen und mit Ihrem Unternehmen wachsen.',
-    points: ['Web-Apps & Kundenportale', 'API-Integrationen', 'Hosting & Wartung'],
+    icon: Server,
+    tone: 'sun',
+    title: 'Server-Hosting',
+    text: 'Wir richten Ihren Server ein und halten ihn am Laufen, damit Sie sich nicht darum kümmern müssen.',
+    points: ['Einrichtung & Konfiguration', 'Updates, Backups & Monitoring', 'Standort Deutschland'],
   },
 ];
 
 export default function Services() {
   return (
-    <section className="section" id="leistungen">
-      <div className="container">
-        <div className="section__head">
-          <span className="eyebrow">Leistungen</span>
-          <h2>Alles aus einer Hand</h2>
-          <p>Von der Terminplanung bis zum kompletten Webauftritt – wir digitalisieren Ihr Geschäft.</p>
-        </div>
-        <div className="grid grid--3">
-          {services.map((s) => (
-            <article key={s.title} className="card">
-              <div className="card__icon">{s.icon}</div>
-              <h3>{s.title}</h3>
-              <p>{s.text}</p>
-              <ul className="checklist">
-                {s.points.map((p) => <li key={p}>{p}</li>)}
-              </ul>
-            </article>
-          ))}
+    <section className="products" id="produkte">
+      <Wave color="var(--mist)" />
+      <div className="products__body">
+        <div className="wrap">
+          <h2 className="h2 center">Drei Produkte. Ein Team.</h2>
+          <p className="sub center">
+            Von der ersten Buchung bis zum laufenden Server: Sie haben einen Ansprechpartner für alles.
+          </p>
+          <div className="products__grid">
+            {products.map(({ icon: Icon, ...p }) => (
+              <article key={p.title} className={`product sketch product--${p.tone}`}>
+                <div className="product__art">
+                  <span className="product__icon"><Icon width="34" height="34" /></span>
+                  {p.tag && <span className="pill">{p.tag}</span>}
+                </div>
+                <h3>{p.title}</h3>
+                <p>{p.text}</p>
+                <ul className="ticks">
+                  {p.points.map((x) => <li key={x}>{x}</li>)}
+                </ul>
+                <a href="#kontakt" className="product__more">
+                  Anfragen <span className="round round--sm"><ArrowUpRight width="16" height="16" /></span>
+                </a>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>

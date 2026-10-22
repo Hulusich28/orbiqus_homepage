@@ -2,50 +2,45 @@ const plans = [
   {
     name: 'Starter',
     price: '29 €',
-    period: '/ Monat',
-    text: 'Für Einzelunternehmer, die online buchbar sein wollen.',
-    features: ['1 Kalender', 'Online-Buchungsseite', 'E-Mail-Erinnerungen', 'E-Mail-Support'],
+    period: 'im Monat',
+    text: 'Für Selbstständige, die online buchbar sein wollen.',
+    features: ['1 Kalender', 'Eigene Buchungsseite', 'E-Mail-Erinnerungen', 'Support per E-Mail'],
   },
   {
     name: 'Business',
     price: '79 €',
-    period: '/ Monat',
+    period: 'im Monat',
     text: 'Für Teams und Praxen mit mehreren Mitarbeitern.',
-    features: ['Bis zu 10 Kalender', 'SMS-Erinnerungen', 'Kalender-Sync', 'Online-Zahlung', 'Prioritäts-Support'],
+    features: ['Bis zu 10 Kalender', 'SMS-Erinnerungen', 'Kalender-Sync', 'Online-Zahlung', 'Bevorzugter Support'],
     highlight: true,
   },
   {
-    name: 'Website + Termine',
+    name: 'Website & Hosting',
     price: 'Individuell',
-    period: '',
-    text: 'Komplette Website inklusive integrierter Terminbuchung.',
-    features: ['Individuelles Webdesign', 'Buchungssystem integriert', 'SEO-Grundoptimierung', 'Hosting & Wartung'],
+    period: 'nach Projekt',
+    text: 'Ihre Website mit eingebauter Buchung, auf Wunsch mit eigenem Server.',
+    features: ['Individuelles Design', 'Terminbuchung integriert', 'Hosting & Wartung', 'Server-Einrichtung'],
   },
 ];
 
 export default function Pricing() {
   return (
-    <section className="section section--alt" id="preise">
-      <div className="container">
-        <div className="section__head">
-          <span className="eyebrow">Preise</span>
-          <h2>Transparent und fair</h2>
-          <p>Monatlich kündbar. 14 Tage kostenlos testen.</p>
-        </div>
-        <div className="grid grid--3">
+    <section className="pricing" id="preise">
+      <div className="wrap">
+        <h2 className="h2 center">Klare Preise</h2>
+        <p className="sub center">14 Tage kostenlos testen. Monatlich kündbar. Alle Preise zzgl. MwSt.</p>
+        <div className="pricing__grid">
           {plans.map((p) => (
-            <article key={p.name} className={`plan ${p.highlight ? 'plan--highlight' : ''}`}>
-              {p.highlight && <span className="plan__tag">Beliebt</span>}
+            <article key={p.name} className={`plan sketch ${p.highlight ? 'plan--hot' : ''}`}>
+              {p.highlight && <span className="pill pill--sun plan__tag">Am beliebtesten</span>}
               <h3>{p.name}</h3>
-              <p className="plan__price">
-                {p.price} <small>{p.period}</small>
-              </p>
+              <p className="plan__price">{p.price}<small>{p.period}</small></p>
               <p className="plan__text">{p.text}</p>
-              <ul className="checklist">
+              <ul className="ticks">
                 {p.features.map((f) => <li key={f}>{f}</li>)}
               </ul>
-              <a href="#kontakt" className={`btn ${p.highlight ? 'btn--primary' : 'btn--ghost'} btn--block`}>
-                Jetzt anfragen
+              <a href="#kontakt" className={`btn btn--block ${p.highlight ? 'btn--sun' : 'btn--ink'}`}>
+                {p.highlight ? '14 Tage kostenlos testen' : 'Anfragen'}
               </a>
             </article>
           ))}
