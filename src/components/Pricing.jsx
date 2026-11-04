@@ -1,4 +1,5 @@
-import { Reveal, RollingNumber, TextReveal, TiltCard } from './motion.jsx';
+import { Arrow } from './Icons.jsx';
+import { Reveal, RollingNumber, SectionHead } from './motion.jsx';
 
 const plans = [
   {
@@ -27,34 +28,33 @@ const plans = [
 
 export default function Pricing() {
   return (
-    <section className="pricing" id="preise">
+    <section className="section pricing" id="preise">
       <div className="wrap">
-        <TextReveal className="h2 center" text="Klare Preise" />
-        <p className="sub center">14 Tage kostenlos testen. Monatlich kündbar. Alle Preise zzgl. MwSt.</p>
+        <SectionHead
+          kicker="Preise"
+          title="Wählen Sie Ihr *Paket*"
+          lede="Starten Sie klein und wechseln Sie jederzeit, wenn Ihr Team wächst."
+          meta="03 Pakete"
+        />
         <Reveal className="pricing__grid">
           {plans.map((p, i) => (
-            <TiltCard
-              as="article"
-              key={p.name}
-              max={4}
-              className={`plan sketch ${p.highlight ? 'plan--hot' : ''}`}
-              style={{ '--s': i }}
-              data-stagger
-            >
-              {p.highlight && <span className="pill pill--sun plan__tag">Am beliebtesten</span>}
-              <h3>{p.name}</h3>
+            <article key={p.name} className={`plan ${p.highlight ? 'plan--hot dark' : ''}`} style={{ '--s': i }} data-stagger>
+              <div className="plan__head">
+                <span className="kicker">{p.name}</span>
+                {p.highlight && <span className="chip chip--gold">Am beliebtesten</span>}
+              </div>
               <p className="plan__price">
-                {p.price ? <><RollingNumber value={p.price} /> €</> : 'Individuell'}
-                <small>{p.period}</small>
+                {p.price ? <><RollingNumber value={p.price} /><span className="plan__cur">€</span></> : 'Individuell'}
               </p>
+              <p className="meta plan__period">{p.period}</p>
               <p className="plan__text">{p.text}</p>
               <ul className="ticks">
                 {p.features.map((f) => <li key={f}>{f}</li>)}
               </ul>
-              <a href="#kontakt" className={`btn btn--block ${p.highlight ? 'btn--sun btn--shine' : 'btn--ink'}`}>
-                {p.highlight ? '14 Tage kostenlos testen' : 'Anfragen'}
+              <a href="/kontakt" className={`btn btn--block ${p.highlight ? 'btn--light' : 'btn--navy'}`}>
+                {p.highlight ? '14 Tage kostenlos testen' : 'Anfragen'} <Arrow width="16" height="16" />
               </a>
-            </TiltCard>
+            </article>
           ))}
         </Reveal>
       </div>

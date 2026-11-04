@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Arrow } from './Icons.jsx';
 import { Reveal, TextReveal } from './motion.jsx';
 
 const faqs = [
@@ -35,9 +36,14 @@ const faqs = [
 export default function Faq() {
   const [open, setOpen] = useState(0);
   return (
-    <section className="faq" id="faq">
-      <div className="wrap wrap--narrow">
-        <TextReveal className="h2 center" text="Häufige Fragen" />
+    <section className="section faq" id="faq">
+      <div className="wrap faq__grid">
+        <div className="faq__side">
+          <p className="kicker">FAQ</p>
+          <TextReveal className="h-section" text="Häufige *Fragen*" />
+          <p className="lede">Ihre Frage ist nicht dabei? Schreiben Sie uns, wir antworten innerhalb von 24 Stunden.</p>
+          <a href="/kontakt" className="link">Frage stellen <Arrow width="16" height="16" /></a>
+        </div>
         <Reveal className="faq__list">
           {faqs.map((f, i) => {
             const isOpen = open === i;
@@ -51,7 +57,8 @@ export default function Faq() {
                     id={`faq-q-${i}`}
                     onClick={() => setOpen(isOpen ? -1 : i)}
                   >
-                    <span>{f.q}</span>
+                    <span className="meta">0{i + 1}</span>
+                    <span className="faq__qt">{f.q}</span>
                     <i className="faq__icon" aria-hidden="true" />
                   </button>
                 </h3>

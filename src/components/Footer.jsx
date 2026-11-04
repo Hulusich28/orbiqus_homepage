@@ -1,47 +1,52 @@
-import Logo from './Logo.jsx';
+import Logo, { Mark } from './Logo.jsx';
 
 export default function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer className="footer">
+    <footer className="footer dark">
       <div className="wrap">
-        <div className="footer__card">
-          <div className="footer__top">
+        <div className="footer__top">
+          <div className="footer__brand">
             <Logo />
-            <p className="footer__claim">Termine, Websites und Server aus einer Hand.</p>
-            <p className="footer__text">
-              Orbiqus ist ein junges Software-Team aus Deutschland. Wir machen Online-Terminbuchung
+            <p>
+              Orbiqus ist ein junges Software-Team aus Rostock. Wir machen Online-Terminbuchung
               einfach, bauen moderne Websites und betreiben die Server dahinter.
             </p>
+            <p className="meta">Orbiqus eGbR · Heinrich-Vogeler-Weg 18 · 18055 Rostock</p>
           </div>
 
-          <div className="footer__cols">
-            <nav aria-label="Produkte">
-              <h4>Produkte</h4>
-              <a href="#produkte">Terminsoftware</a>
-              <a href="#produkte">Websites</a>
-              <a href="#produkte">Server-Hosting</a>
-            </nav>
-            <nav aria-label="Orbiqus">
-              <h4>Orbiqus</h4>
-              <a href="#ablauf">Ablauf</a>
-              <a href="#preise">Preise</a>
-              <a href="#team">Gründer</a>
-              <a href="#kontakt">Kontakt</a>
-            </nav>
-            <nav aria-label="Rechtliches">
-              <h4>Rechtliches</h4>
-              {/* TODO: Impressum- und Datenschutzseite verlinken (in DE Pflicht) */}
-              <a href="#">Impressum</a>
-              <a href="#">Datenschutz</a>
-              <a href="#">AGB</a>
-            </nav>
-          </div>
+          <nav aria-label="Produkte">
+            <p className="kicker">Produkte</p>
+            <a href="/produkte">Terminsoftware</a>
+            <a href="/produkte">Websites</a>
+            <a href="/produkte">Server-Hosting</a>
+            <a href="/preise">Preise</a>
+          </nav>
+          <nav aria-label="Orbiqus">
+            <p className="kicker">Orbiqus</p>
+            <a href="/produkte#ablauf">Ablauf</a>
+            <a href="/preise#faq">FAQ</a>
+            <a href="/ueber-uns">Über uns</a>
+            <a href="/kontakt">Kontakt</a>
+          </nav>
+          <nav aria-label="Rechtliches">
+            <p className="kicker">Rechtliches</p>
+            <a href="/impressum">Impressum</a>
+            {/* TODO: Datenschutzerklärung und AGB als eigene Seiten ergänzen */}
+            <a href="#">Datenschutz</a>
+            <a href="#">AGB</a>
+          </nav>
+        </div>
 
-          <div className="footer__bottom">
-            <span>© {year} Orbiqus. Alle Rechte vorbehalten.</span>
-            <a href="mailto:info@orbiqus.de">info@orbiqus.de</a>
-          </div>
+        <div className="footer__word" aria-hidden="true">
+          <span>ORBIQUS</span>
+          <Mark size={120} />
+        </div>
+
+        <div className="footer__bottom meta">
+          <span>© {year} Orbiqus eGbR. Alle Rechte vorbehalten.</span>
+          <span>Termine · Websites · Hosting</span>
+          <a href="mailto:info@orbiqus.de">info@orbiqus.de</a>
         </div>
       </div>
     </footer>

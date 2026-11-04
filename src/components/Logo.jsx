@@ -1,16 +1,19 @@
-export default function Logo({ light = false }) {
+// Bildmarke laut Corporate Design: zwei Balken in Schriftfarbe, der mittlere in Gold und nach rechts versetzt
+export function Mark({ size = 22, className = '' }) {
   return (
-    <a href="#top" className={`logo ${light ? 'logo--light' : ''}`} aria-label="Orbiqus Startseite">
-      <svg viewBox="0 0 64 64" width="30" height="30" aria-hidden="true">
-        <circle cx="32" cy="32" r="14" fill="var(--violet)" />
-        <ellipse
-          cx="32" cy="32" rx="28" ry="10"
-          fill="none" stroke="currentColor" strokeWidth="4.5"
-          transform="rotate(-25 32 32)"
-        />
-        <circle cx="55" cy="21" r="4.5" fill="var(--sun)" />
-      </svg>
-      <span>orbiqus</span>
+    <svg className={`mark ${className}`} viewBox="0 0 140 94" width={size} height={size * 0.67} aria-hidden="true">
+      <rect className="mark__bar mark__bar--1" x="0" y="0" width="86" height="18" rx="2" fill="currentColor" />
+      <rect className="mark__bar mark__bar--2" x="36" y="38" width="104" height="18" rx="2" fill="var(--gold)" />
+      <rect className="mark__bar mark__bar--3" x="0" y="76" width="86" height="18" rx="2" fill="currentColor" />
+    </svg>
+  );
+}
+
+export default function Logo({ className = '' }) {
+  return (
+    <a href="/" className={`logo ${className}`} aria-label="Orbiqus Startseite">
+      <span className="logo__word">ORBIQUS</span>
+      <Mark size={20} />
     </a>
   );
 }

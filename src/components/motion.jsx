@@ -30,7 +30,10 @@ export function Reveal({ as: Tag = 'div', className = '', children, ...rest }) {
   );
 }
 
-/* Überschrift, deren Wörter nacheinander aus der Unschärfe auftauchen */
+/*
+  Überschrift, deren Wörter nacheinander aus der Unschärfe auftauchen.
+  Wörter in *Sternchen* werden als kursiver Akzent (Serif) gesetzt.
+*/
 export function TextReveal({ as: Tag = 'h2', text, className = '', delay = 0, onLoad = false }) {
   const [ref, inView] = useInView({ threshold: 0.4 });
   const [loaded, setLoaded] = useState(false);
@@ -41,18 +44,27 @@ export function TextReveal({ as: Tag = 'h2', text, className = '', delay = 0, on
   }, [onLoad]);
   const show = onLoad ? loaded : inView;
   const lines = Array.isArray(text) ? text : [text];
+  const plain = lines.join(' ').replace(/\*/g, '');
   let i = 0;
   return (
-    <Tag ref={ref} className={`text-reveal ${show ? 'is-in' : ''} ${className}`} aria-label={lines.join(' ')}>
-      {lines.map((line, li) => (
-        <span key={li} className="text-reveal__line" aria-hidden="true">
-          {line.split(' ').map((w, wi) => (
-            <span key={wi} className="text-reveal__word" style={{ '--i': i++, '--d': `${delay}ms` }}>
-              {w}{wi < line.split(' ').length - 1 ? ' ' : ''}
-            </span>
-          ))}
-        </span>
-      ))}
+    <Tag ref={ref} className={`text-reveal ${show ? 'is-in' : ''} ${className}`} aria-label={plain}>
+      {lines.map((line, li) => {
+        const words = line.split(' ');
+        return (
+          <span key={li} className="text-reveal__line" aria-hidden="true">
+            {words.map((w, wi) => {
+              const accent = /^\*.*\*[.,!?]?$/.test(w);
+              const clean = w.replace(/\*/g, '');
+              return (
+                <span key={wi} className="text-reveal__word" style={{ '--i': i++, '--d': `${delay}ms` }}>
+                  {accent ? <em>{clean}</em> : clean}
+                  {wi < words.length - 1 ? ' ' : ''}
+                </span>
+              );
+            })}
+          </span>
+        );
+      })}
     </Tag>
   );
 }
@@ -77,38 +89,20 @@ export function RollingNumber({ value, className = '', startFrom = 0 }) {
   );
 }
 
-/* Karte neigt sich zur Maus, ein Lichtkegel folgt dem Zeiger */
-export function TiltCard({ as: Tag = 'div', className = '', max = 6, children, style, ...rest }) {
-  const ref = useRef(null);
-  const frame = useRef(0);
-  const fine = useRef(true);
-  useEffect(() => {
-    fine.current = window.matchMedia('(hover: hover) and (pointer: fine)').matches && !prefersReduced();
-  }, []);
-  const move = (e) => {
-    if (!fine.current) return;
-    const el = ref.current;
-    const r = el.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width;
-    const y = (e.clientY - r.top) / r.height;
-    cancelAnimationFrame(frame.current);
-    frame.current = requestAnimationFrame(() => {
-      el.style.setProperty('--rx', `${(0.5 - y) * max}deg`);
-      el.style.setProperty('--ry', `${(x - 0.5) * max}deg`);
-      el.style.setProperty('--mx', `${x * 100}%`);
-      el.style.setProperty('--my', `${y * 100}%`);
-    });
-  };
-  const leave = () => {
-    const el = ref.current;
-    cancelAnimationFrame(frame.current);
-    el.style.setProperty('--rx', '0deg');
-    el.style.setProperty('--ry', '0deg');
-  };
+/* Abschnittskopf: Label + große Überschrift links, Einleitung + Meta rechts */
+export function SectionHead({ kicker, title, lede, meta, center = false }) {
   return (
-    <Tag ref={ref} className={`tilt ${className}`} onPointerMove={move} onPointerLeave={leave} style={style} {...rest}>
-      {children}
-      <span className="tilt__light" aria-hidden="true" />
-    </Tag>
+    <header className={`shead ${center ? 'shead--center' : ''}`}>
+      <div className="shead__main">
+        {kicker && <p className="kicker">{kicker}</p>}
+        <TextReveal className="h-section" text={title} />
+      </div>
+      {(lede || meta) && (
+        <Reveal className="shead__side">
+          {lede && <p className="lede">{lede}</p>}
+          {meta && <p className="meta">{meta}</p>}
+        </Reveal>
+      )}
+    </header>
   );
 }

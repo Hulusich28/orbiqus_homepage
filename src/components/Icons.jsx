@@ -41,3 +41,21 @@ export const Globe = (p) => (
 export const Server = (p) => (
   <svg {...base} {...p}><rect x="4" y="4" width="16" height="7" rx="2" /><rect x="4" y="13" width="16" height="7" rx="2" /><path d="M8 7.5h.01M8 16.5h.01" /></svg>
 );
+export const Arrow = (p) => (
+  <svg {...base} {...p}><path d="M4 12h16M14 6l6 6-6 6" /></svg>
+);
+export const Check = (p) => (
+  <svg {...base} {...p}><path d="M5 12.5l4.2 4.2L19 7" /></svg>
+);
+export const Mail = (p) => (
+  <svg {...base} {...p}><rect x="3.5" y="5.5" width="17" height="13" rx="2.5" /><path d="M4 7l8 6 8-6" /></svg>
+);
+export const Users = (p) => (
+  <svg {...base} {...p}><circle cx="12" cy="8.5" r="3.5" /><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5" /></svg>
+);
+export const Gear = (p) => (
+  <svg {...base} {...p}><circle cx="12" cy="12" r="3" /><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M5.6 18.4l1.8-1.8M16.6 7.4l1.8-1.8" /></svg>
+);
+export const List = (p) => (
+  <svg {...base} {...p}><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01" /></svg>
+);

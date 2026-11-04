@@ -1,105 +1,84 @@
-import { useEffect, useRef } from 'react';
-import { ArrowUpRight, Bell, Layers, People, Shield, Sync } from './Icons.jsx';
-import { Reveal, TextReveal, prefersReduced } from './motion.jsx';
-
-const cards = [
-  {
-    icon: Shield, tone: 'violet',
-    title: 'DSGVO-konform, gehostet in Deutschland',
-    text: 'Alle Kundendaten liegen auf Servern in Deutschland. Keine Weitergabe, keine Werbe-Tracker.',
-  },
-  {
-    icon: Bell, tone: 'sun',
-    title: 'Weniger vergessene Termine',
-    text: 'Automatische Erinnerungen per SMS und E-Mail. Absagen und Verschieben geht mit einem Klick.',
-  },
-  {
-    icon: Sync, tone: 'cyan',
-    title: 'Ihr Kalender bleibt Ihr Kalender',
-    text: 'Termine landen sofort in Google, Outlook oder Apple Kalender. In beide Richtungen.',
-  },
-  {
-    icon: Layers, tone: 'mint',
-    title: 'Software, Website und Server aus einer Hand',
-    text: 'Kein Abstimmen zwischen drei Dienstleistern. Wenn etwas nicht läuft, wissen wir sofort, wo.',
-  },
-  {
-    icon: People, tone: 'ink',
-    title: 'Persönlicher Support von den Gründern',
-    text: 'Sie schreiben nicht mit einem Ticketsystem, sondern direkt mit den Leuten, die Orbiqus bauen.',
-  },
-];
+import Contours from './Contours.jsx';
+import { Arrow, Bell, Layers, People, Shield, Sync } from './Icons.jsx';
+import { Reveal, SectionHead } from './motion.jsx';
 
 const week = ['Mo', 'Di', 'Mi', 'Do', 'Fr'];
-const tones = ['violet', 'cyan', 'sun', 'mint'];
 
 export default function Features() {
-  const listRef = useRef(null);
-
-  // Gestapelte Karten: Karten darunter werden kleiner und dunkler, sobald die nächste darüber gleitet
-  useEffect(() => {
-    if (prefersReduced()) return;
-    const cardsEls = [...listRef.current.children];
-    let raf = 0;
-    const update = () => {
-      raf = 0;
-      cardsEls.forEach((el, i) => {
-        const next = cardsEls[i + 1];
-        if (!next) return;
-        const a = el.getBoundingClientRect();
-        const b = next.getBoundingClientRect();
-        const covered = Math.min(1, Math.max(0, (a.bottom - b.top) / a.height));
-        el.style.setProperty('--p', covered.toFixed(3));
-      });
-    };
-    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
-    update();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-    return () => { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); cancelAnimationFrame(raf); };
-  }, []);
-
   return (
-    <section className="diff" id="vorteile">
+    <section className="section diff" id="vorteile">
       <div className="wrap">
-        <TextReveal className="h2" text="Der Unterschied mit Orbiqus" />
+        <SectionHead
+          kicker="Der Unterschied"
+          title="Warum *Orbiqus*"
+          lede="Kein Baukasten von der Stange: Software, Website und Server kommen vom selben kleinen Team."
+          meta="05 Gründe"
+        />
 
-        <Reveal className="diff__intro">
-          <div className="diff__price">
-            <span className="pill pill--light">ab 29 € im Monat</span>
-            <a href="#preise" className="round round--light" aria-label="Zu den Preisen"><ArrowUpRight /></a>
-          </div>
-          <div className="diff__week" aria-hidden="true">
-            {week.map((d, i) => (
-              <div key={d} className="day">
-                <span>{d}</span>
-                {[0, 1, 2].map((r) => (
-                  <i
-                    key={r}
-                    className={`b b--${tones[(i + r) % 4]} ${(i * 3 + r) % 4 === 0 ? 'b--tall' : ''}`}
-                    style={{ '--d': `${(i * 3 + r) * 60}ms` }}
-                  />
-                ))}
-              </div>
-            ))}
-          </div>
-          <p className="diff__claim">14 Tage kostenlos testen. Monatlich kündbar.</p>
+        <Reveal className="bento">
+          {/* Große Karte: Wochenansicht + Preis */}
+          <article className="bento__card bento__card--hero dark" style={{ '--s': 0 }} data-stagger>
+            <Contours className="bento__lines" levels={5} cell={18} alpha={0.28} speed={0.6} />
+            <div className="bento__top">
+              <span className="chip chip--gold">ab 29 € im Monat</span>
+              <a href="/preise" className="round" aria-label="Zu den Preisen"><Arrow width="18" height="18" /></a>
+            </div>
+            <div className="week" aria-hidden="true">
+              {week.map((d, i) => (
+                <div key={d} className="week__day">
+                  <span className="meta">{d}</span>
+                  {[0, 1, 2].map((r) => (
+                    <i
+                      key={r}
+                      className={`week__b ${(i * 3 + r) % 4 === 0 ? 'is-tall' : ''} ${(i * 3 + r) % 5 === 2 ? 'is-gold' : ''}`}
+                      style={{ '--d': `${(i * 3 + r) * 60}ms` }}
+                    />
+                  ))}
+                </div>
+              ))}
+            </div>
+            <div>
+              <h3>Ein voller Kalender, ohne ein einziges Telefonat.</h3>
+              <p>14 Tage kostenlos testen. Monatlich kündbar.</p>
+            </div>
+          </article>
+
+          <article className="bento__card" style={{ '--s': 1 }} data-stagger>
+            <span className="bento__icon"><Shield /></span>
+            <h3>DSGVO-konform, gehostet in Deutschland</h3>
+            <p>Alle Kundendaten liegen auf Servern in Deutschland. Keine Weitergabe, keine Werbe-Tracker.</p>
+            <span className="meta bento__foot">Serverstandort · DE</span>
+          </article>
+
+          <article className="bento__card" style={{ '--s': 2 }} data-stagger>
+            <span className="bento__icon"><Bell /></span>
+            <h3>Weniger vergessene Termine</h3>
+            <p>Automatische Erinnerungen per SMS und E-Mail. Absagen und Verschieben geht mit einem Klick.</p>
+            <div className="notes" aria-hidden="true">
+              <span><b>SMS</b> Erinnerung: morgen 10:15</span>
+              <span><b>Mail</b> Termin bestätigt</span>
+            </div>
+          </article>
+
+          <article className="bento__card" style={{ '--s': 3 }} data-stagger>
+            <span className="bento__icon"><Sync /></span>
+            <h3>Ihr Kalender bleibt Ihr Kalender</h3>
+            <p>Termine landen sofort in Google, Outlook oder Apple Kalender. In beide Richtungen.</p>
+            <div className="syncs" aria-hidden="true"><span>Google</span><i /><span>Outlook</span><i /><span>Apple</span></div>
+          </article>
+
+          <article className="bento__card" style={{ '--s': 4 }} data-stagger>
+            <span className="bento__icon"><Layers /></span>
+            <h3>Software, Website und Server aus einer Hand</h3>
+            <p>Kein Abstimmen zwischen drei Dienstleistern. Wenn etwas nicht läuft, wissen wir sofort, wo.</p>
+          </article>
+
+          <article className="bento__card bento__card--sand" style={{ '--s': 5 }} data-stagger>
+            <span className="bento__icon"><People /></span>
+            <h3>Persönlicher Support von den Gründern</h3>
+            <p>Sie schreiben nicht mit einem Ticketsystem, sondern direkt mit den Leuten, die Orbiqus bauen.</p>
+          </article>
         </Reveal>
-
-        <ol className="stack" ref={listRef}>
-          {cards.map(({ icon: Icon, ...c }, i) => (
-            <li key={c.title} className={`stack__card stack__card--${c.tone}`} style={{ '--i': i }}>
-              <div className="stack__top">
-                <span className="stack__num">0{i + 1}+</span>
-                <span className="round round--light"><Icon /></span>
-              </div>
-              <div>
-                <h3>{c.title}</h3>
-                <p>{c.text}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
       </div>
     </section>
   );
