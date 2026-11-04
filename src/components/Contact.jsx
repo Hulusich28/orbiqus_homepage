@@ -2,22 +2,17 @@ import { useState } from 'react';
 import Contours from './Contours.jsx';
 import { Arrow } from './Icons.jsx';
 import { TextReveal } from './motion.jsx';
+import { CONTACT_MAIL, WEB3FORMS_KEY } from '../config.js';
 
-const MAIL = 'info@orbiqus.de';
+const MAIL = CONTACT_MAIL;
 const OPTIONS = ['Terminsoftware', 'Website', 'Server-Hosting', 'Mehrere Produkte'];
-const initial = { name: '', email: '', interest: OPTIONS[0], message: '', _honey: '' };
-
-/*
-  Versand über FormSubmit (https://formsubmit.co): Die Anfrage landet direkt im Postfach info@orbiqus.de.
-  Beim allerersten Absenden schickt FormSubmit eine Bestätigungs-Mail an info@orbiqus.de –
-  den Link darin einmal anklicken, danach kommen alle Anfragen an.
-  Eigener Endpunkt möglich über die Umgebungsvariable VITE_FORM_ENDPOINT.
-*/
-const ENDPOINT = import.meta.env?.VITE_FORM_ENDPOINT || `https://formsubmit.co/ajax/${MAIL}`;
+const initial = { name: '', email: '', interest: OPTIONS[0], message: '', botcheck: '' };
+const KEY_MISSING = !/^[0-9a-f-]{36}$/i.test(WEB3FORMS_KEY);
 
 export default function Contact() {
   const [form, setForm] = useState(initial);
   const [status, setStatus] = useState('idle'); // idle | sending | sent | error
+  const [error, setError] = useState('');
 
   const update = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -25,28 +20,36 @@ export default function Contact() {
     e.preventDefault();
     if (status === 'sending') return;
     // Spam-Schutz: unsichtbares Feld wurde ausgefüllt → so tun, als wäre alles gut
-    if (form._honey) { setStatus('sent'); return; }
+    if (form.botcheck) { setStatus('sent'); return; }
+    if (KEY_MISSING) {
+      setError('Das Kontaktformular ist noch nicht eingerichtet (Access Key fehlt).');
+      setStatus('error');
+      return;
+    }
     setStatus('sending');
+    setError('');
     try {
-      const res = await fetch(ENDPOINT, {
+      // Versand über Web3Forms → landet als E-Mail in info@orbiqus.de
+      const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
-          Name: form.name,
-          'E-Mail': form.email,
+          access_key: WEB3FORMS_KEY,
+          subject: `Neue Website-Anfrage: ${form.interest} (${form.name})`,
+          from_name: 'Orbiqus Website',
+          name: form.name,
+          email: form.email,
+          replyto: form.email,
           Interesse: form.interest,
-          Nachricht: form.message || '–',
-          _subject: `Neue Website-Anfrage: ${form.interest} (${form.name})`,
-          _replyto: form.email,
-          _template: 'table',
-          _captcha: 'false',
+          message: form.message || '–',
         }),
       });
       const data = await res.json().catch(() => ({}));
-      if (!res.ok || data.success === false || data.success === 'false') throw new Error(data.message || 'Versand fehlgeschlagen');
+      if (!res.ok || !data.success) throw new Error(data.message || `Fehler ${res.status}`);
       setStatus('sent');
       setForm(initial);
-    } catch {
+    } catch (err) {
+      setError(err.message === 'Failed to fetch' ? 'Keine Verbindung zum Versanddienst.' : err.message);
       setStatus('error');
     }
   };
@@ -99,14 +102,14 @@ export default function Contact() {
               <textarea name="message" rows="3" value={form.message} onChange={update} placeholder="Branche, Teamgröße, Wünsche" />
             </label>
             {/* Honigtopf gegen Spam-Bots, für Menschen unsichtbar */}
-            <input className="form__hp" type="text" name="_honey" value={form._honey} onChange={update} tabIndex={-1} autoComplete="off" aria-hidden="true" />
+            <input className="form__hp" type="checkbox" name="botcheck" checked={!!form.botcheck} onChange={(e) => setForm({ ...form, botcheck: e.target.checked ? 'on' : '' })} tabIndex={-1} aria-hidden="true" />
 
             <button type="submit" className="btn btn--light btn--lg btn--block" disabled={status === 'sending'}>
               {status === 'sending' ? 'Wird gesendet …' : <>Anfrage senden <Arrow width="18" height="18" /></>}
             </button>
             {status === 'error' && (
               <p className="form__note form__note--error" role="alert">
-                Das hat leider nicht geklappt. Bitte versuchen Sie es erneut oder schreiben Sie uns direkt an{' '}
+                Das hat leider nicht geklappt{error ? ` (${error})` : ''}. Bitte versuchen Sie es erneut oder schreiben Sie uns direkt an{' '}
                 <a className="link" href={mailto}>{MAIL}</a>.
               </p>
             )}
