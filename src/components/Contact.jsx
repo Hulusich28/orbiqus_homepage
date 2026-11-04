@@ -30,20 +30,15 @@ export default function Contact() {
     setError('');
     try {
       // Versand über Web3Forms → landet als E-Mail in info@orbiqus.de
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_KEY,
-          subject: `Neue Website-Anfrage: ${form.interest} (${form.name})`,
-          from_name: 'Orbiqus Website',
-          name: form.name,
-          email: form.email,
-          replyto: form.email,
-          Interesse: form.interest,
-          message: form.message || '–',
-        }),
-      });
+      const fd = new FormData();
+      fd.append('access_key', WEB3FORMS_KEY);
+      fd.append('subject', `Neue Website-Anfrage: ${form.interest} (${form.name})`);
+      fd.append('from_name', 'Orbiqus Website');
+      fd.append('name', form.name);
+      fd.append('email', form.email);
+      fd.append('Interesse', form.interest);
+      fd.append('message', form.message || '–');
+      const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.success) throw new Error(data.message || `Fehler ${res.status}`);
       setStatus('sent');

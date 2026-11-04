@@ -14,7 +14,7 @@ const plans = [
     price: 79,
     period: 'im Monat',
     text: 'Für Teams und Praxen mit mehreren Mitarbeitern.',
-    features: ['Bis zu 10 Kalender', 'SMS-Erinnerungen', 'Kalender-Sync', 'Online-Zahlung', 'Bevorzugter Support'],
+    features: ['Bis zu 10 Kalender', 'SMS-Erinnerungen', 'Kalender-Sync', 'Bevorzugter Support'],
     highlight: true,
   },
   {

@@ -21,7 +21,7 @@ const faqs = [
   },
   {
     q: 'Was passiert, wenn ein Kunde nicht erscheint?',
-    a: 'Erinnerungen per SMS und E-Mail senken das Risiko deutlich. Auf Wunsch können Kunden bei der Buchung eine Anzahlung leisten.',
+    a: 'Erinnerungen per SMS und E-Mail senken das Risiko deutlich. Und wenn doch einmal jemand absagt, ist der frei gewordene Termin sofort wieder online buchbar.',
   },
   {
     q: 'Muss ich alle drei Produkte nehmen?',

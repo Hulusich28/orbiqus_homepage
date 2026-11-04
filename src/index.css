@@ -660,7 +660,7 @@ ul, ol { padding: 0; list-style: none; }
 .bento__card:hover { transform: translateY(-4px); box-shadow: 0 30px 60px -40px rgba(22, 29, 47, .45); }
 .bento__card h3 { font-size: 21px; font-weight: 600; letter-spacing: -.025em; line-height: 1.2; margin-top: auto; }
 .bento__card p { font-size: 15px; color: var(--muted); }
-.bento__card--hero { grid-column: span 4; grid-row: span 2; border-color: transparent; padding: 32px; gap: 24px; }
+.bento__card--hero { grid-column: span 4; grid-row: span 2; background: var(--navy); border-color: transparent; padding: 32px; gap: 24px; }
 .bento__card--hero h3 { font-size: clamp(26px, 2.8vw, 38px); letter-spacing: -.035em; max-width: 16ch; margin-top: 0; }
 .bento__card--hero p { color: var(--on-dark-2); margin-top: 10px; }
 .bento__card--hero > *:not(.bento__lines) { position: relative; }
@@ -782,7 +782,9 @@ ul, ol { padding: 0; list-style: none; }
   background: var(--nebel);
   border: 1px solid var(--hair);
 }
-.plan--hot { border-color: transparent; box-shadow: 0 40px 80px -50px rgba(22, 29, 47, .8); }
+.plan--hot { background: var(--navy); border-color: transparent; box-shadow: 0 40px 80px -50px rgba(22, 29, 47, .8); }
+.plan--hot .plan__price { color: var(--on-dark); }
+.plan--hot .plan__period { color: var(--on-dark-3); }
 .plan--hot::before { content: ''; position: absolute; left: 32px; right: 32px; top: 0; height: 2px; background: var(--gold); border-radius: 0 0 2px 2px; }
 .plan__head { display: flex; justify-content: space-between; align-items: center; min-height: 34px; }
 .plan__price { margin-top: 26px; font-size: 64px; font-weight: 600; letter-spacing: -.045em; line-height: 1; display: flex; align-items: flex-start; gap: 4px; }
